@@ -10,6 +10,7 @@ public class GhostLensFlare : MonoBehaviour
     Material radialWarpMaterial;
     Material additiveMaterial;
     Material aberrationMaterial;
+    Material blurMaterial;
 
     public float Subtract = 0.5f;
     [Range(0, 1)]
@@ -26,6 +27,11 @@ public class GhostLensFlare : MonoBehaviour
     public float HaloFalloff = 10;
     public float HaloSubtract = 1;
 
+    [Range(0, 64)]
+    public int BlurSize = 32;
+    [Range(1, 16)]
+    public float Sigma = 8;
+
     public Color chromaticAberration = new Color(0, 16, 32);
 
     void OnEnable()
@@ -35,6 +41,7 @@ public class GhostLensFlare : MonoBehaviour
         radialWarpMaterial = new Material(Shader.Find("Hidden/RadialWarp"));
         additiveMaterial = new Material(Shader.Find("Hidden/Additive"));
         aberrationMaterial = new Material(Shader.Find("Hidden/LensFlareAberration"));
+        blurMaterial = new Material(Shader.Find("Hidden/GaussianBlur"));
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -65,7 +72,17 @@ public class GhostLensFlare : MonoBehaviour
         aberrationMaterial.SetColor("_DisplaceColor", chromaticAberration);
         Graphics.Blit(added, aberration, aberrationMaterial);
 
-        additiveMaterial.SetTexture("_MainTex1", aberration);
+        RenderTexture blur = RenderTexture.GetTemporary(Screen.width, Screen.height, 0, RenderTextureFormat.DefaultHDR);
+        blurMaterial.SetInt("_BlurSize", BlurSize);
+        blurMaterial.SetFloat("_Sigma", Sigma);
+        blurMaterial.SetInt("_Direction", 1);
+        Graphics.Blit(aberration, blur, blurMaterial);
+        
+        RenderTexture blur1 = RenderTexture.GetTemporary(Screen.width, Screen.height, 0, RenderTextureFormat.DefaultHDR);
+        blurMaterial.SetInt("_Direction", 0);
+        Graphics.Blit(blur, blur1, blurMaterial);
+
+        additiveMaterial.SetTexture("_MainTex1", blur1);
         Graphics.Blit(source, destination, additiveMaterial);
 
         RenderTexture.ReleaseTemporary(downsampled);
@@ -73,5 +90,7 @@ public class GhostLensFlare : MonoBehaviour
         RenderTexture.ReleaseTemporary(radialWarped);
         RenderTexture.ReleaseTemporary(added);
         RenderTexture.ReleaseTemporary(aberration);
+        RenderTexture.ReleaseTemporary(blur);
+        RenderTexture.ReleaseTemporary(blur1);
     }
 }
