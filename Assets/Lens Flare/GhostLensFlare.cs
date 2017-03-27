@@ -12,23 +12,23 @@ public class GhostLensFlare : MonoBehaviour
     Material aberrationMaterial;
     Material blurMaterial;
 
-    public float Subtract = 0.5f;
+    public float Subtract = 0.0f;
     [Range(0, 1)]
     public float Multiply = 1;
     [Range(0, 6)]
-    public int Downsample = 0;
+    public int Downsample = 1;
     [Range(0, 8)]
-    public int NumberOfGhosts = 2;
+    public int NumberOfGhosts = 5;
     [Range(0, 2)]
-    public float Displacement = 0.1f;
-    public float Falloff = 10;
+    public float Displacement = 0.5f;
+    public float Falloff = 8;
     [Range(0, 0.5f)]
     public float HaloWidth = 0.5f;
-    public float HaloFalloff = 10;
-    public float HaloSubtract = 1;
+    public float HaloFalloff = 36;
+    public float HaloSubtract = 0.1f;
 
     [Range(0, 64)]
-    public int BlurSize = 32;
+    public int BlurSize = 16;
     [Range(1, 16)]
     public float Sigma = 8;
 
@@ -55,7 +55,7 @@ public class GhostLensFlare : MonoBehaviour
         ghostMaterial.SetFloat("_Displace", Displacement);
         ghostMaterial.SetFloat("_Falloff", Falloff);
         Graphics.Blit(downsampled, ghosts, ghostMaterial);
-        RenderTexture radialWarped = RenderTexture.GetTemporary(Screen.width >> Downsample, Screen.height >> Downsample, 0, RenderTextureFormat.DefaultHDR);
+        RenderTexture radialWarped = RenderTexture.GetTemporary(Screen.width, Screen.height, 0, RenderTextureFormat.DefaultHDR);
 
         radialWarpMaterial.SetFloat("_HaloFalloff", HaloFalloff);
         radialWarpMaterial.SetFloat("_HaloWidth", HaloWidth);

@@ -48,7 +48,7 @@
 			float4 _MainTex_TexelSize;
 
 			float g(float x) {
-				return pow(2.71828, -x*x/(2*_Sigma*_Sigma))/sqrt(2*3.14159*_Sigma*_Sigma);
+				return pow(2.71829, -x*x/(2*_Sigma*_Sigma))/sqrt(2*3.141593*_Sigma*_Sigma);
 			}
 
 			fixed4 frag (v2f i) : SV_Target
