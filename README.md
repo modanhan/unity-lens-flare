@@ -2,9 +2,13 @@
 
 Lens Flare using Ghost features implemented in Unity.
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=xzwo0muslE8
-" target="_blank"><img src="http://img.youtube.com/vi/xzwo0muslE8/0.jpg" 
-alt="IMAGE ALT TEXT HERE" width="1080" height="607" border="10" /></a>
+![Sample Image](https://github.com/spoonsplz/unity-lens-flare/blob/master/Lens%20Flare.PNG)
+
+# Video
+
+Check out this video!
+
+https://www.youtube.com/watch?v=xzwo0muslE8
 
 # Concept
 
