@@ -1,3 +1,7 @@
+# Note
+
+Hey! Actually check out this version instead: https://github.com/modanhan/unity-lens-flare-1
+
 # Unity Lens Flare
 
 Lens Flare using Ghost features implemented in Unity.
